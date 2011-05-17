@@ -17,7 +17,7 @@
     <p id="isitlaksatime"> 
         <noscript><a href="http://twitter.com/home/?status=Oi%20@rioter,%20is%20it%20laksa%20time%20yet?%20http://isitlaksatimeyet.200ok.com.au/">Ask Jared</a>.</noscript> 
     </p> 
- <script>
+<script>
 //Get the start time of the next event
 var currentTime = TickTock(new Date(Date.now())),
     startTime = TickTock(new Date(Date.now())),
@@ -28,7 +28,7 @@ var currentTime = TickTock(new Date(Date.now())),
     soon;
 
 //Set the appropriate alert times.
-startTime.setTimeOfDay(12, 0, 0) //.addDays((5 - startTime.getDay() + 7) % 7);
+startTime.setTimeOfDay(12, 0, 0).addDays((5 - startTime.getDay() + 7) % 7);
 endTime = TickTock(new Date(startTime)).addHours(1);
 notYet = TickTock(new Date(startTime)).addHours(-2);
 getReady = TickTock(new Date(startTime)).addHours(-1);
@@ -36,13 +36,13 @@ nearly = TickTock(new Date(startTime)).addMinutes(-45);
 soon = TickTock(new Date(startTime)).addMinutes(-30);
 
 //Check the time. What time is it?
-currentTime.isBefore(notYet, function() { document.getElementById('isitlaksatime').innerHTML = '<p>No</p>'; });
-currentTime.isDuring(notYet, getReady, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Not yet</p>';});
-currentTime.isDuring(getReady, nearly, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Get ready</p>';});
-currentTime.isDuring(nearly, soon, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Nearly</p>'; });
-currentTime.isDuring(soon, startTime, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Soon</p>'; });
-currentTime.isDuring(startTime, endTime, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Yes</p>'; });
-currentTime.isAfter(endTime, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>No</p>'; });
+currentTime.isBefore(notYet, function() { document.getElementById('isitlaksatime').innerHTML = 'No'; });
+currentTime.isDuring(notYet, getReady, function() {  document.getElementById('isitlaksatime').innerHTML = 'Not yet';});
+currentTime.isDuring(getReady, nearly, function() {  document.getElementById('isitlaksatime').innerHTML = 'Get ready';});
+currentTime.isDuring(nearly, soon, function() {  document.getElementById('isitlaksatime').innerHTML = 'Nearly'; });
+currentTime.isDuring(soon, startTime, function() {  document.getElementById('isitlaksatime').innerHTML = 'Soon'; });
+currentTime.isDuring(startTime, endTime, function() {  document.getElementById('isitlaksatime').innerHTML = 'Yes'; });
+currentTime.isAfter(endTime, function() {  document.getElementById('isitlaksatime').innerHTML = 'No'; });
 </script>
 </body> 
 </html> 
