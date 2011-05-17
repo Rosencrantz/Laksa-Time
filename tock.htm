@@ -19,8 +19,12 @@
         <noscript><a href="http://twitter.com/home/?status=Oi%20@rioter,%20is%20it%20laksa%20time%20yet?%20http://isitlaksatimeyet.200ok.com.au/">Ask Jared</a>.</noscript> 
     </p> 
  <script>
-(function() {    
-    Date.prototype.isBefore = function(time, callback) {
+(function() {
+
+    var TickTock = function(object) { return new constructor(object); },
+        root = this;
+    
+    TickTock.isBefore = function(time, callback) {
         if(this.getTime() < time.getTime()) {
             if(typeof callback == 'function') {
                 return callback();
@@ -31,7 +35,7 @@
         return false;
     }
 
-    Date.prototype.isDuring = function(start, end, callback) { 
+    TickTock.isDuring = function(start, end, callback) { 
         if(this.getTime() > start.getTime() && this.getTime() < end.getTime()) {
             if(typeof callback == 'function') {
                 return callback();
@@ -42,7 +46,7 @@
         return false;
     }
 
-    Date.prototype.isAfter = function(time, callback) {
+    TickTock.isAfter = function(time, callback) {
         if(this.getTime() > time.getTime()) {
             if(typeof callback == 'function') {
                 return callback();
@@ -53,21 +57,21 @@
         return false;
     }
 
-    Date.prototype.setTimeOfDay = function(hour, minute, second) {
+    TickTock.setTimeOfDay = function(hour, minute, second) {
         this.setHours(hour || 0);
         this.setMinutes(minute || 0);
         this.setSeconds(second || 0);
         return this;
     }
     
-    Date.prototype.addMinutes = function(val) {
+    TickTock.addMinutes = function(val) {
         var minute = 60000;
         
         this.setTime(this.getTime() + (val * minute));
         return this;
     }
 
-    Date.prototype.addHours = function(val) {
+    TickTock.addHours = function(val) {
         var minute = 60000,
             hour = minute * 60;
 
@@ -75,7 +79,7 @@
         return this;
     }
 
-    Date.prototype.addDays = function(val) {
+    TickTock.addDays = function(val) {
         var minute = 60000,
             hour = minute * 60,
             day = hour * 24;
@@ -83,6 +87,13 @@
         this.setTime(this.getTime() + (val * day));
         return this;
     }
+
+    var constructor = function(object) {
+        this.constructor = object;
+    }
+    
+    TickTock.prototype = constructor.prototype;
+    root['TickTock'] = TickTock;
 })();
 
 function display(message) {
@@ -98,11 +109,11 @@ var currentTime = new Date(Date.now()),
     nearly,
     soon;
     
-startTime.setTimeOfDay(16, 30, 0); //.addDays((5 - startTime.getDay() + 7) % 7);
+TickTock(startTime).setTimeOfDay(16, 30, 0); //.addDays((5 - startTime.getDay() + 7) % 7);
 
 endTime = new Date(startTime);
-endTime.addHours(1);
-
+TickTock(endTime).addHours(1);
+/*
 notYet = new Date(startTime);
 notYet.addHours(-2);
 
@@ -122,6 +133,7 @@ currentTime.isDuring(nearly, soon, function() { console.log('Nearly') });
 currentTime.isDuring(soon, startTime, function() { console.log('Soon') });
 currentTime.isDuring(startTime, endTime, function() { console.log('Yes') });
 currentTime.isAfter(endTime, function() { console.log('No') });
+*/
 </script>
 
 </body> 
