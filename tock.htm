@@ -3,6 +3,7 @@
 <head> 
     <meta charset="utf-8" /> 
     <title>Is it laksa time yet?</title> 
+    <script type="text/javascript" src="tock.js"></script>
     <style type="text/css"> 
     body { background: white; color: black; text-align: center; font-family: sans-serif; }
     .assistive { position: absolute; left: -5000px; width: 4000px; overflow: hidden; top: 0; height: 0; }
@@ -12,98 +13,11 @@
  
 </head> 
 <body> 
- 
     <h1 class="assistive">is it laksa time yet?</h1> 
-    
     <p id="isitlaksatime"> 
         <noscript><a href="http://twitter.com/home/?status=Oi%20@rioter,%20is%20it%20laksa%20time%20yet?%20http://isitlaksatimeyet.200ok.com.au/">Ask Jared</a>.</noscript> 
     </p> 
  <script>
-(function() {
-
-    var TickTock = function(obj) { 
-        return new wrapper(obj); 
-    }
-
-    var root = this; 
-    TickTock.isBefore = function(time, callback) {
-        if(this.getTime() < time.getTime()) {
-            if(typeof callback == 'function') {
-                return callback();
-            } else {
-                return true;
-            }
-        } 
-        return false;
-    }
-
-    TickTock.isDuring = function(start, end, callback) { 
-        if(this.getTime() > start.getTime() && this.getTime() < end.getTime()) {
-            if(typeof callback == 'function') {
-                return callback();
-            } else {
-                return true;
-            }
-        } 
-        return false;
-    }
-
-    TickTock.isAfter = function(time, callback) {
-        if(this.getTime() > time.getTime()) {
-            if(typeof callback == 'function') {
-                return callback();
-            } else {
-                return true;
-            }
-        } 
-        return false;
-    }
-
-    TickTock.setTimeOfDay = function(hour, minute, second) {
-        this.setHours(hour || 0);
-        this.setMinutes(minute || 0);
-        this.setSeconds(second || 0);
-        return this;
-    }
-    
-    TickTock.addMinutes = function(val) {
-        var minute = 60000;
-        
-        this.setTime(this.getTime() + (val * minute));
-        return this;
-    }
-
-    TickTock.addHours = function(val) {
-        var minute = 60000,
-            hour = minute * 60;
-
-        this.setTime(this.getTime() + (val * hour));
-        return this;
-    }
-
-    TickTock.addDays = function(val) {
-        var minute = 60000,
-            hour = minute * 60,
-            day = hour * 24;
-
-        this.setTime(this.getTime() + (val * day));
-        return this;
-    }
-
-    var wrapper = function(obj) {
-        for(item in TickTock) {
-            if(TickTock.hasOwnProperty(item)) {
-                obj.constructor.prototype[item] = TickTock[item];
-            }
-        }
-
-        return obj;
-    }
-
-    TickTock.prototype = wrapper.prototype;
-    root['TickTock'] = TickTock;
-})();
-
 //Get the start time of the next event
 var currentTime = TickTock(new Date(Date.now())),
     startTime = TickTock(new Date(Date.now())),
@@ -112,27 +26,23 @@ var currentTime = TickTock(new Date(Date.now())),
     getReady,
     nearly,
     soon;
-    
-startTime.setTimeOfDay(17, 0, 0) //.addDays((5 - startTime.getDay() + 7) % 7);
 
+//Set the appropriate alert times.
+startTime.setTimeOfDay(12, 0, 0) //.addDays((5 - startTime.getDay() + 7) % 7);
 endTime = TickTock(new Date(startTime)).addHours(1);
-
 notYet = TickTock(new Date(startTime)).addHours(-2);
-
 getReady = TickTock(new Date(startTime)).addHours(-1);
-
 nearly = TickTock(new Date(startTime)).addMinutes(-45);
-
 soon = TickTock(new Date(startTime)).addMinutes(-30);
 
-currentTime.isBefore(notYet, function() { console.log('No') });
-currentTime.isDuring(notYet, getReady, function() { console.log('Not yet') });
-currentTime.isDuring(getReady, nearly, function() { console.log('Get ready') });
-currentTime.isDuring(nearly, soon, function() { console.log('Nearly') });
-currentTime.isDuring(soon, startTime, function() { console.log('Soon') });
-currentTime.isDuring(startTime, endTime, function() { console.log('Yes') });
-currentTime.isAfter(endTime, function() { console.log('No') });
+//Check the time. What time is it?
+currentTime.isBefore(notYet, function() { document.getElementById('isitlaksatime').innerHTML = '<p>No</p>'; });
+currentTime.isDuring(notYet, getReady, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Not yet</p>';});
+currentTime.isDuring(getReady, nearly, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Get ready</p>';});
+currentTime.isDuring(nearly, soon, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Nearly</p>'; });
+currentTime.isDuring(soon, startTime, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Soon</p>'; });
+currentTime.isDuring(startTime, endTime, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>Yes</p>'; });
+currentTime.isAfter(endTime, function() {  document.getElementById('isitlaksatime').innerHTML = '<p>No</p>'; });
 </script>
-
 </body> 
 </html> 
