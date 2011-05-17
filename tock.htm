@@ -1,0 +1,67 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8" /> 
+    <title>Is it laksa time yet?</title> 
+    <style type="text/css"> 
+    body { background: white; color: black; text-align: center; font-family: sans-serif; }
+    .assistive { position: absolute; left: -5000px; width: 4000px; overflow: hidden; top: 0; height: 0; }
+    #isitlaksatime { font-size: 10em; margin: 10% 5% 0 5%; text-shadow: 3px 3px 3px #ddd; }
+    .long #isitlaksatime { font-size: 6em; }
+    </style> 
+ 
+</head> 
+<body> 
+ 
+    <h1 class="assistive">is it laksa time yet?</h1> 
+    
+    <p id="isitlaksatime"> 
+        <noscript><a href="http://twitter.com/home/?status=Oi%20@rioter,%20is%20it%20laksa%20time%20yet?%20http://isitlaksatimeyet.200ok.com.au/">Ask Jared</a>.</noscript> 
+    </p> 
+ <script>
+(function() {    
+    Date.prototype.isBefore = function(time, callback) {
+        return this.getTime() < time.getTime();
+    }
+
+    Date.prototype.isDuring = function(start, end, callback) { 
+        if(this.getTime() > start.getTime() && this.getTime() < end.getTime()) {
+            if(typeof callback == 'function') {
+                return callback();
+            } else {
+                return true;
+            }
+        } 
+        return false;
+    }
+
+    Date.prototype.isAfter = function(time, callback) {
+        return this.getTime() > time.getTime();
+    }
+})();
+
+
+//Get the start time of the next event
+var currentTime = new Date(Date.now());
+var startTime = new Date(Date.now());
+startTime.setDate(startTime.getDate() + (5 - startTime.getDay() + 7) % 7)
+startTime.setHours(17);
+startTime.setMinutes(0);
+startTime.setSeconds(0);
+
+var endTime = new Date(startTime);
+endTime.setHours(13);
+
+var notYet = new Date(currentTime);
+notYet.setHours(10);
+
+var getReady = new Date(currentTime);
+getReady.setHours(18)
+
+currentTime.isDuring(notYet, getReady, function() {
+    console.log('Not yet');
+});
+</script>
+
+</body> 
+</html> 
