@@ -1,38 +1,47 @@
-var laksa = function() {
-    Date.prototype.isItLaksaTime = function() {
-        var hour = this.getHours(),
-            minute = this.getMinutes();
-
-        if(hour == 12)  { 
+(function(options) {
+    function tock() {
+    }
+    this.event = options.event || 'Beer O\'clock';
+    this.start = options.startDate || Date.now();
+    this.end = options.endDate || Date.now();
+    this.duration = options.duration || 60;
+    this.recurring = options.recurring || false;
+    this.recurrence = options.every || 'once';
+    
+    Date.prototype.isItNow = function() {
+        var time = this.getTime();
+                
+        if(time >= this.start && time <= this.end) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
-    Date.prototype.isItLaksaDay = function() {
+    Date.prototype.isItToday = function() {
         var day = this.getDay();
 
-        if(day == 4) {
+        if(day == this.time.getDay()) {
             return true;
         } else {
             return false;
         }
     }
 
-    Date.prototype.howLongTilLaksa = function() {
+    Date.prototype.howLong = function() {
         var laksaDate = this.getNextLaksaDate();
         
         return(this || laksaDate - this);     
     }
 
-    Date.prototype.getNextLaksaDate = function() {
+    Date.prototype.getNextTime = function() {
         var laksaDate = new Date(),
             diff = (4 - this.getDay() + 7) % 7;
 
         return this.addDays((diff === 0) ? diff += 7 : diff); 
     }
-};
+
+    return Date.now();
+})();
 
 <!DOCTYPE html> 
 <html lang="en"> 
